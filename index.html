@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="app">
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="http://metawidget.org/js/4.2/metawidget-core.min.js" type="text/javascript"></script>
+    <script src="http://metawidget.org/js/4.2/metawidget-angular.min.js" type="text/javascript"></script>
+    <script>
+         angular.module( 'app', [ 'metawidget' ] ).controller( 'demoController', function( $scope ) {
+
+         	$scope.metawidgetConfig = {
+               	inspector: new metawidget.inspector.CompositeInspector( [
+                  	new metawidget.inspector.PropertyTypeInspector(),
+                  	new metawidget.inspector.JsonSchemaInspector( {
+                     	properties: {
+                     		firstname: {
+                     			required: true,
+                     			type: "string"
+                     		},
+                     		lastname: {
+                     			required: true,
+                     			type: "string"
+                     		},
+                     		address: {
+                     			required: false,
+                     			type: "string",
+                     		},
+                        	children: {
+                        		required: false,
+                           		items: {
+                              		properties: {
+                                 		id: {
+                                    	hidden: true
+                                 	},
+                                 	firstname: {
+                                 		required: true,
+                                 		type: "string"	
+                                 	}
+                              	}
+                            }
+                        }
+                     }
+                  } )
+               ] )
+            };
+
+            $scope.person = {
+               	firstname: '',
+               	lastname: '',
+               	age: 44,
+               	address: 'mystreet',
+               	children: [ {
+                	id: 1,
+                  	firstname: 'Ash',
+                  	age: 14
+               	}, {
+                  		id: 2,
+                  		firstname: 'Ranger',
+                  		age: 10
+            	} ]
+            };
+
+            $scope.area = [
+            	'Ive heard some bad things about that area...', 
+            	'Oh really? How can you afford to live there!', 
+            	'Ah, thats just around the corner from where Kevin Rudd used to live!'
+            ];
+
+            $scope.behaviour = [
+            	'This one is an angel...', 
+            	'This one is extremely naughty!', 
+            	'This one is cheeky!'
+            ];
+
+            $scope.submit = function() {
+        		console.log("Submitted!");
+        		console.log("Thank you, "+$scope.person.firstname+" "+$scope.person.lastname+"!");
+        		console.log("----------------------------------------");
+        		console.log("You are only "+$scope.person.age+" years young! And you look so much younger!");
+        		console.log("----------------------------------------");
+        		console.log("Your address is: ");
+        		console.log($scope.person.address);
+        		let areaIndex = Math.floor((Math.random() * 2));
+    			console.log($scope.area[areaIndex]);
+        		console.log("----------------------------------------");
+        		console.log("Your children are: ");
+        		console.log("----------------------------------------");
+        		$scope.person.children.forEach(function(child) {
+    				console.log(child.id+": "+child.firstname+" who is "+child.age+" years old");
+    				let behaviourIndex = Math.floor((Math.random() * 2));
+    				console.log($scope.behaviour[behaviourIndex]);
+				});
+				console.log("----------------------------------------");
+				console.log("Thanks and enjoy your day!");
+    		};	
+
+         } );
+
+			
+      </script>
+</head>
+<body ng-controller="demoController" >
+	<h1>Nosey Questions</h1>
+	<p>Hi! We are very curious about you and would love it if you could answer the following very basic questions... (just for fun)</p>
+	<p>Anything you submit will be displayed back to you in only a very moderately humorous way via the javascript console of your browser</p>
+	<metawidget ng-model="person" config="metawidgetConfig" ></metawidget>
+	<button ng-click="submit()" type="submit" id="submit" value="Submit" />SUBMIT</button>
+</body>
+<html>
