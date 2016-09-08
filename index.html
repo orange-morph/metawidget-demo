@@ -8,6 +8,8 @@
          angular.module( 'app', [ 'metawidget' ] ).controller( 'demoController', function( $scope ) {
 
          	$scope.metawidgetConfig = {
+
+				// Configure the metawidget inspector to hide children ids in UI, and set 'required' fields
                	inspector: new metawidget.inspector.CompositeInspector( [
                   	new metawidget.inspector.PropertyTypeInspector(),
                   	new metawidget.inspector.JsonSchemaInspector( {
@@ -41,6 +43,7 @@
                      }
                   } )
                ] )
+
             };
 
             $scope.person = {
@@ -53,18 +56,20 @@
                   	firstname: 'Ash',
                   	age: 14
                	}, {
-                  		id: 2,
-                  		firstname: 'Ranger',
-                  		age: 10
+                  	id: 2,
+                  	firstname: 'Ranger',
+                  	age: 10
             	} ]
             };
 
+            // Array of quotes about the area the person lives in, to be randomly applied in console
             $scope.area = [
             	'Ive heard some bad things about that area...', 
             	'Oh really? How can you afford to live there!', 
             	'Ah, thats just around the corner from where Kevin Rudd used to live!'
             ];
 
+            // Array of quotes about a child's behaviour, to be randomly applied in console
             $scope.behaviour = [
             	'This one is an angel...', 
             	'This one is extremely naughty!', 
@@ -75,13 +80,16 @@
         		console.log("Submitted!");
         		console.log("Thank you, "+$scope.person.firstname+" "+$scope.person.lastname+"!");
         		console.log("----------------------------------------");
+
         		console.log("You are only "+$scope.person.age+" years young! And you look so much younger!");
         		console.log("----------------------------------------");
+
         		console.log("Your address is: ");
         		console.log($scope.person.address);
         		let areaIndex = Math.floor((Math.random() * 2));
     			console.log($scope.area[areaIndex]);
         		console.log("----------------------------------------");
+
         		console.log("Your children are: ");
         		console.log("----------------------------------------");
         		$scope.person.children.forEach(function(child) {
@@ -89,20 +97,45 @@
     				let behaviourIndex = Math.floor((Math.random() * 2));
     				console.log($scope.behaviour[behaviourIndex]);
 				});
+
 				console.log("----------------------------------------");
-				console.log("Thanks and enjoy your day!");
+				console.log("Thanks, and enjoy your day!");
     		};	
 
          } );
 
 			
       </script>
+      <style>
+      		h1 {
+      			color: #175C73;
+      		}
+			.container {
+				text-align: center;
+				margin: 20px 400px 50px 100px;
+				font-family: Verdana, Geneva, sans-serif;
+			}			
+			#metawidget {
+				border: 1px solid #cccccc;
+				width: 400px;
+				border-radius: 10px;
+				padding: 10px;
+				margin: 50px auto;
+				display: block;
+			}
+			#metawidget button {
+				display: block;
+				margin: 10px auto 0px;
+			}
+		</style>
 </head>
 <body ng-controller="demoController" >
-	<h1>Nosey Questions</h1>
-	<p>Hi! We are very curious about you and would love it if you could answer the following very basic questions... (just for fun)</p>
-	<p>Anything you submit will be displayed back to you in only a very moderately humorous way via the javascript console of your browser</p>
-	<metawidget ng-model="person" config="metawidgetConfig" ></metawidget>
-	<button ng-click="submit()" type="submit" id="submit" value="Submit" />SUBMIT</button>
+	<div class="container">
+		<h1>Nosey Questions</h1>
+		<p>Hi! We are very curious about you and would love it if you could answer the following very basic questions... (just for fun)</p>
+		<p>Anything you submit will be displayed back to you in only a very moderately humorous way via the javascript console of your browser</p>
+		<metawidget ng-model="person" config="metawidgetConfig" ></metawidget>
+		<button ng-click="submit()" type="submit" id="submit" value="Submit" />SUBMIT</button>
+	</div>
 </body>
 <html>
